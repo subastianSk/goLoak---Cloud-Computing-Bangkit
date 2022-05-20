@@ -40,7 +40,10 @@ router.post("/login", async (req, res) => {
                 id: user._id,
                 email: email
             },
-            process.env.JWT_SECRET
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1d"
+            }
         );
 
         return res.status(200).json({
@@ -59,14 +62,20 @@ router.post("/signup", async (req, res) => {
 
     try {
         const {
+            nama,
             username,
             password,
-            email
+            email,
+            nomer,
+            alamat
         } = req.body;
         const hashedPassword = await bcrypt.hash(password, 12);
         await User.create({
+            nama: nama,
             username: username,
             email: email,
+            nomer: nomer,
+            alamat: alamat,
             password: hashedPassword
         });
 
